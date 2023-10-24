@@ -1,77 +1,53 @@
-import java.util.ArrayList;
-import java.util.List;
-
-public class Conta {
-    public final int numeroAgencia;
-    public final int numeroConta;
-    private double saldo;
+public abstract class Conta {
+    private final int numero;
+    private final int agencia;
+    protected double saldo;
+    protected Notificacao notificacao;
     private Cliente cliente;
-    private List<Transacao> transacoes = new ArrayList<Transacao>();
+    private Endereco endereco;
 
-    public Conta(int numeroAgencia, int numeroConta, double saldo, Cliente cliente) {
-        this.numeroAgencia = numeroAgencia;
-        this.numeroConta = numeroConta;
+    public Conta(int numero, int agencia, double saldo, Notificacao notificacao, Cliente cliente, Endereco endereco) {
+        this.numero = numero;
+        this.agencia = agencia;
         this.saldo = saldo;
+        this.notificacao = notificacao;
         this.cliente = cliente;
+        this.endereco = endereco;
     }
 
-    public boolean transferirDinheiro(Conta contaDestino, double valor) {
-        System.out.println("Valor a ser transferido R$ " + valor);
+    public void saque(double valor) {
+        if (valor <= saldo) {
+            this.saldo -= valor;
+            this.notificacao.enviaNotificacao("saque", valor);
+        } else {
+            System.out.println("Saldo insuficiente para o saque de R$" + valor);
+        }
+    }
 
-        if (this.saldo < valor) {
-            System.out.println("Saldo insuficiente");
+    public boolean deposito(double valor) {
+        if (valor > 0) {
+            saldo += valor;
+            this.notificacao.enviaNotificacao("depósito", valor);
+            return true; 
+        } else {
+            System.out.println("Valor inválido para depósito");
             return false;
         }
-
-        this.saldo = this.saldo - valor;
-
-        contaDestino.saldo = contaDestino.saldo + valor;
-
-        Transacao transacao = new Transacao("transferencia", valor);
-        this.transacoes.add(transacao);
-
-        return true;
     }
 
-    public boolean sacarDinheiro(double valor) {
-        System.out.println("Seu saldo e R$ " + this.saldo);
-
-        if (this.saldo < valor) { // 
-            System.out.println("Saldo insuficiente");
-            return false;
+    public void transferencia(double valor, Conta destino) {
+        if (valor > 0 && saldo >= valor && destino != null) {
+            this.saldo -= valor;
+            boolean depositoBemSucedido = destino.deposito(valor); 
+            if (depositoBemSucedido) {
+                this.notificacao.enviaNotificacao("transferência", valor);
+                destino.notificacao.enviaNotificacao("recebimento de transferência", valor);
+                System.out.println("Transferência bem-sucedida.");
+            } else {
+                System.out.println("Falha ao transferir dinheiro para a conta de destino.");
+            }
+        } else {
+            System.out.println("Transferência não permitida. Verifique o saldo da conta de origem e a conta de destino.");
         }
-
-        this.saldo = this.saldo - valor;
-
-        Transacao transacao = new Transacao("saque", valor);
-        this.transacoes.add(transacao);
-
-        System.out.println("Apos o saque, seu saldo e R$ " + this.saldo);
-
-        return true;
-    }
-
-    public void depositarDinheiro(double valor) {
-        this.saldo = this.saldo + valor;
-
-        System.out.println("Seu saldo agora e R$ " + this.saldo);
-    }
-
-    public void exibirSaldo() {
-        System.out.println("Seu saldo e R$ " + this.saldo);
-    }
-
-    public void exibirExtrato() {
-        System.out.println("============= EXTRATO ============");
-        System.out.println("Ola, " + this.cliente.getNome() + "!");
-
-        for (int i = 0; i < this.transacoes.size(); i++) {
-            Transacao transacao = this.transacoes.get(i);
-
-            System.out.println("Voce fez um(a) " + transacao.tipo + " de R$ " + transacao.valor);
-        }
-
-        System.out.println("Seu saldo e R$ " + this.saldo);
-        System.out.println("===================================");
     }
 }

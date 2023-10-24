@@ -1,19 +1,16 @@
-public class App {
+import java.util.Date;
+
+class App {
     public static void main(String[] args) {
-        Cliente cliente1 = new Cliente("jhulia", "000.000.000-00", "27/03/2005", "pantanal");
+        // Cliente 1
+        Notificacao notificacao = new NotificacaoSms();
+        Endereco endereco = new Endereco("Rua 21 de abril", 5665, "Pantanal", "Picos", "PI");
+        Cliente cliente = new Cliente("000.000.000-00", "Fulano de Tal", new Date());
+        ContaCorrente contaCorrente = new ContaCorrente(123, 456, 1000, notificacao, cliente, endereco);
 
-        Conta conta1 = new Conta(1234, 5555, 1000, cliente1);
-        Conta conta2 = new Conta(1234, 7777, 1000, cliente1);
+        // Segunda conta
+        ContaPoupanca contaPoupanca = new ContaPoupanca(123, 456, 50, notificacao, cliente, endereco);
 
-        conta1.transferirDinheiro(conta2, 250);
-        conta1.exibirSaldo();
-
-        conta1.sacarDinheiro(100);
-        conta1.exibirSaldo();
-
-        conta1.depositarDinheiro(100);
-        conta1.exibirSaldo();
-
-        conta1.exibirExtrato();
+        contaCorrente.transferencia(20, contaPoupanca);
     }
 }

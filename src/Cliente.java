@@ -1,33 +1,27 @@
+import java.util.Date;
+
 public class Cliente {
+    private String cpf;
     private String nome;
-    private final String cpf;
-    private String dataNascimento;
-    private String endereco;
+    private Date dataNascimento; 
 
-    public Cliente (String nome, String cpf, String dataNascimento, String endereco) {
-        this.nome = nome;
+
+    public Cliente(String cpf, String nome, Date dataNascimento) {
         this.cpf = cpf;
+        this.nome = nome;
         this.dataNascimento = dataNascimento;
-        this.endereco = endereco;
-    }
-
-    public String getNome() {
-        return nome;
     }
 
     public String getCpf() {
         return cpf;
     }
 
-    public String getDataNascimento() {
+    public String getNome() {
+        return nome;
+    }
+
+    public Date getDataNascimento() {
         return dataNascimento;
     }
 
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
 }
