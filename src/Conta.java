@@ -4,15 +4,14 @@ public abstract class Conta {
     protected double saldo;
     protected Notificacao notificacao;
     private Cliente cliente;
-    private Endereco endereco;
 
-    public Conta(int numero, int agencia, double saldo, Notificacao notificacao, Cliente cliente, Endereco endereco) {
+
+    public Conta(int numero, int agencia, double saldo, Notificacao notificacao, Cliente cliente) {
         this.numero = numero;
         this.agencia = agencia;
         this.saldo = saldo;
         this.notificacao = notificacao;
         this.cliente = cliente;
-        this.endereco = endereco;
     }
 
 
