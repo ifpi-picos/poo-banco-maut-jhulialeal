@@ -11,7 +11,6 @@ public class Cliente {
         this.cpf = cpf;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
-        this.endereco = endereco;
     }
 
     public String getCpf() {
@@ -31,8 +30,8 @@ public class Cliente {
     }
 
     
-   public void setEndereco(Endereco endereco) {
-       this.endereco = endereco;
-   }
+    public void setEndereco(Endereco endereco) {
+    this.endereco = endereco;
+}
 
 }

@@ -2,7 +2,6 @@ import java.util.Date;
 
 class App {
     public static void main(String[] args) {
-        // Cliente 1
         Notificacao notificacao1 = new NotificacaoSms();
         Notificacao notificacao2 =  new NotificacaoEmail();
         Endereco endereco = new Endereco("Rua 21 de abril", 5665, "Pantanal", "Picos", "PI");
@@ -17,6 +16,9 @@ class App {
         contaCorrente.transferencia(100, contaPoupanca);
         contaCorrente.transferencia(100, contaPoupanca);
         System.out.println("Saldo da conta poupança: " + contaPoupanca.getSaldo());
+        System.out.println("saldo conta corrente: " + contaCorrente.getSaldo());
+
+        contaCorrente.exibirExtrato();
         
         contaPoupanca.deposito(1000);
         contaPoupanca.saque(500);
@@ -24,5 +26,6 @@ class App {
         System.out.println("Saldo da conta poupança: " + contaPoupanca.getSaldo());
         System.out.println("Saldo conta corrente: " + contaCorrente.getSaldo());
 
-    }
+        contaPoupanca.exibirExtrato();
+}
 }

@@ -1,17 +1,22 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Conta {
     private final int numero;
     private final int agencia;
     protected double saldo;
     protected Notificacao notificacao;
     private Cliente cliente;
+    private List<Transacao> extrato;
 
 
-    public Conta(int numero, int agencia, double saldo, Notificacao notificacao, Cliente cliente) {
+    public Conta(int numero, int agencia, Notificacao notificacao, Cliente cliente) {
         this.numero = numero;
         this.agencia = agencia;
-        this.saldo = saldo;
+        this.saldo = 0.0;
         this.notificacao = notificacao;
         this.cliente = cliente;
+        this.extrato = new ArrayList<>();
     }
 
 
@@ -19,39 +24,46 @@ public double getSaldo() {
     return saldo;
 }
 
-    public void saque(double valor) {
-        if (valor <= saldo) {
-            this.saldo -= valor;
-            this.notificacao.enviaNotificacao("saque", valor);
-        } else {
-            System.out.println("Saldo insuficiente para o saque de R$" + valor);
-        }
+
+
+    public abstract void saque(double valor);
+
+    public abstract void deposito(double valor);
+
+    public abstract void transferencia(double valor, Conta destino);
+
+
+    public int getNumero() {
+        return numero;
     }
 
-    public boolean deposito(double valor) {
-        if (valor > 0) {
-            saldo += valor;
-            this.notificacao.enviaNotificacao("depósito", valor);
-            return true; 
-        } else {
-            System.out.println("Valor inválido para depósito");
-            return false;
-        }
+
+    public int getAgencia() {
+        return agencia;
     }
 
-    public void transferencia(double valor, Conta destino) {
-        if (valor > 0 && saldo >= valor && destino != null) {
-            this.saldo -= valor;
-            boolean depositoBemSucedido = destino.deposito(valor); 
-            if (depositoBemSucedido) {
-                this.notificacao.enviaNotificacao("transferência", valor);
-                destino.notificacao.enviaNotificacao("recebimento de transferência", valor);
-                System.out.println("Transferência bem-sucedida.");
-            } else {
-                System.out.println("Falha ao transferir dinheiro para a conta de destino.");
-            }
-        } else {
-            System.out.println("Transferência não permitida. Verifique o saldo da conta de origem e a conta de destino.");
+
+    public Notificacao getNotificacao() {
+        return notificacao;
+    }
+
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+
+    public List<Transacao> getExtrato() {
+        return extrato;
+    }
+
+    public void exibirExtrato(){
+        for(Transacao extratos : extrato){
+            System.out.println("###################");
+            System.out.println("Tipo =>"+extratos.getTipo());
+            System.out.println("Valor =>"+extratos.getValor());
+            System.out.println("Data =>"+extratos.getData());
+            System.out.println("####################");
         }
     }
 }
