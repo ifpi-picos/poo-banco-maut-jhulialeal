@@ -9,7 +9,6 @@ public abstract class Conta {
     private Cliente cliente;
     private List<Transacao> extrato;
 
-
     public Conta(int numero, int agencia, Notificacao notificacao, Cliente cliente) {
         this.numero = numero;
         this.agencia = agencia;
@@ -19,12 +18,9 @@ public abstract class Conta {
         this.extrato = new ArrayList<>();
     }
 
-
-public double getSaldo() {
-    return saldo;
-}
-
-
+    public double getSaldo() {
+        return saldo;
+    }
 
     public abstract void saque(double valor);
 
@@ -32,38 +28,33 @@ public double getSaldo() {
 
     public abstract void transferencia(double valor, Conta destino);
 
-
     public int getNumero() {
         return numero;
     }
-
 
     public int getAgencia() {
         return agencia;
     }
 
-
     public Notificacao getNotificacao() {
         return notificacao;
     }
-
 
     public Cliente getCliente() {
         return cliente;
     }
 
-
     public List<Transacao> getExtrato() {
         return extrato;
     }
 
-    public void exibirExtrato(){
-        for(Transacao extratos : extrato){
-            System.out.println("###################");
-            System.out.println("Tipo =>"+extratos.getTipo());
-            System.out.println("Valor =>"+extratos.getValor());
-            System.out.println("Data =>"+extratos.getData());
-            System.out.println("####################");
+    public void exibirExtrato() {
+        for (Transacao extratos : extrato) {
+            System.out.println("\n********************");
+            System.out.println("Tipo: " + extratos.getTipo());
+            System.out.println("Valor: " + extratos.getValor());
+            System.out.println("Data: " + extratos.getData());
+            System.out.println("********************");
         }
     }
 }
