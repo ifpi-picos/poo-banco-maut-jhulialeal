@@ -15,6 +15,11 @@ public abstract class Conta {
         this.endereco = endereco;
     }
 
+
+public double getSaldo() {
+    return saldo;
+}
+
     public void saque(double valor) {
         if (valor <= saldo) {
             this.saldo -= valor;

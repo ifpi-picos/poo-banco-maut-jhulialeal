@@ -11,16 +11,15 @@ public class ContaCorrente extends Conta{
 
     @Override
     public void transferencia(double valor, Conta destino) {
-        if (valor <= (saldo + chequeEspecial)) {
-            saldo -= valor;
-
-            if (transferenciaSemTaxa > 0) {
+        if (valor <= (super.saldo + this.chequeEspecial)) {
+            if (this.transferenciaSemTaxa > 0) {
+                super.saque(valor);
                 destino.deposito(valor);
-                transferenciaSemTaxa--;
+                this.transferenciaSemTaxa--;
             } else {
                 double taxa = valor * 0.10; 
-                super.saque(taxa);
-                destino.deposito(valor - taxa);
+                super.saque(valor + taxa);
+                destino.deposito(valor);
             }
         } else {
             System.out.println("Saldo Insuficiente");
